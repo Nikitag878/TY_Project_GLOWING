@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Analysis Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-image: url(assets/images/hero-banner-3.jpg); text-align: center; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .question { margin-bottom: 15px; text-align: left; }
+        select, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background-color:#e04e4e; color: white; font-size: 16px; cursor: pointer;width: 200px; }
+        button:hover { background-color: #e04e4e; }
+        #result { margin-top: 20px; font-size: 18px; font-weight: bold; }
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="container">
+        <h1>Skincare Analysis</h1>
+        <p>Answer the following questions to determine your skin type.</p>
+        <form id="skinSurvey">
+            <div class="question">
+                <label>1. How does your skin feel most of the time?</label>
+                <select id="q1">
+                    <option value="oily">Oily</option>
+                    <option value="dry">Dry</option>
+                    <option value="combination">Combination</option>
+                    <option value="normal">Normal</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>2. How often do you experience breakouts?</label>
+                <select id="q2">
+                    <option value="often">Often</option>
+                    <option value="sometimes">Sometimes</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="never">Never</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>3. How does your skin react to weather changes?</label>
+                <select id="q3">
+                    <option value="dry">Becomes dry/flaky</option>
+                    <option value="oily">Gets oily</option>
+                    <option value="combination">Oily in some areas, dry in others</option>
+                    <option value="normal">No major change</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>4. Do you experience redness or irritation frequently?</label>
+                <select id="q4">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>5. How do your pores appear?</label>
+                <select id="q5">
+                    <option value="large">Large and visible</option>
+                    <option value="small">Small and barely visible</option>
+                    <option value="medium">Moderate size</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>6. How does your skin feel after washing your face?</label>
+                <select id="q6">
+                    <option value="tight">Tight and dry</option>
+                    <option value="balanced">Balanced</option>
+                    <option value="oily">Greasy</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>7. Does your skin look shiny at the end of the day?</label>
+                <select id="q7">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>8. Do you experience fine lines or wrinkles often?</label>
+                <select id="q8">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>9. How does your skin react to new skincare products?</label>
+                <select id="q9">
+                    <option value="sensitive">Easily irritated</option>
+                    <option value="no_change">No major change</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>10. Does your skin require frequent moisturization?</label>
+                <select id="q10">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <button type="button" onclick="analyzeSkinType()">Analyze My Skin Type</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        function analyzeSkinType() {
+            let responses = { oily: 0, dry: 0, combination: 0, normal: 0, sensitive: 0 };
+            let questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'];
+            let values = questions.map(q => document.getElementById(q).value);
+
+            if (values[0] === "oily" || values[6] === "yes" || values[4] === "large") responses.oily++;
+            if (values[0] === "dry" || values[5] === "tight" || values[9] === "yes") responses.dry++;
+            if (values[0] === "combination" || values[2] === "combination") responses.combination++;
+            if (values[0] === "normal" || values[2] === "normal") responses.normal++;
+            if (values[3] === "yes" || values[8] === "sensitive") responses.sensitive++;
+
+            let skinType = "Normal Skin";
+            let maxCount = Math.max(...Object.values(responses));
+
+            for (let key in responses) {
+                if (responses[key] === maxCount) {
+                    skinType = key.charAt(0).toUpperCase() + key.slice(1) + " Skin";
+                }
+            }
+            document.getElementById("result").innerHTML = `Your Skin Type: <strong>${skinType}</strong>`;
+        }
+        function analyzeSkinType() {
+            let skinType = document.getElementById("q1").value;
+            document.getElementById("result").innerHTML = `Your Skin Type: <strong>${skinType.charAt(0).toUpperCase() + skinType.slice(1)} Skin</strong>`;
+            startConfetti();
+        }
+        
+        
+    </script>
+
+<title>Skincare Analysis Tool</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-image: url(assets/images/hero-banner-3.jpg); text-align: center; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+    .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+    .question { margin-bottom: 15px; text-align: left; }
+    select, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+    button { background-color: #e04e4e; color: white; font-size: 16px; cursor: pointer; width: 200px; }
+    button:hover { background-color: #c0392b; }
+    #result, #products, #serums, #routine { margin-top: 20px; font-size: 18px; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Skincare Analysis</h1>
+    <p>Choose your skin type to get personalized skincare recommendations.</p>
+    <form id="skinSurvey">
+        <div class="question">
+            <label>Skin Type:</label>
+            <select id="skinType">
+                <option value="oily">Oily</option>
+                <option value="dry">Dry</option>
+                <option value="combination">Combination</option>
+                <option value="normal">Normal</option>
+                <option value="sensitive">Sensitive</option>
+            </select>
+        </div>
+        <button type="button" onclick="generateRoutine()">Generate Skincare Routine</button>
+        </form>
+        <div id="products"></div>
+        <div id="serums"></div>
+        <div id="routine"></div>
+    </div>
+    <script>
+        function generateRoutine() {
+            let skinType = document.getElementById("skinType").value;
+            let routine = document.getElementById("routine");
+            
+            let routines = {
+                oily: `
+                    <h3>🌞 Morning Routine</h3>
+                    <ul>
+                        <li>Cleanser: Use a gentle foaming cleanser with salicylic acid to remove excess oil and prevent breakouts.</li>
+                        <li>Toner:Apply a toner with witch hazel or niacinamide to control oil production and tighten pores.</li>
+                        <li> Serum: Use a lightweight niacinamide or zinc serum to regulate sebum and reduce redness.</li>
+                        <li> Moisturizer: Opt for an oil-free, gel-based moisturizer with hyaluronic acid to maintain hydration without clogging pores.</li>
+                        <li> Sunscreen: Apply a mattifying SPF 30+ sunscreen to protect against sun damage and control shine.</li>
+                    </ul>
+                    <h3>🌙 Night Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Double cleanse with an oil-based cleanser followed by a foaming cleanser if wearing makeup or sunscreen.</li>
+                        <li> <strong>Treatment:</strong> Apply a salicylic acid or retinol-based treatment to exfoliate and prevent acne.</li>
+                        <li> <strong>Moisturizer:</strong> Use a lightweight gel moisturizer with ceramides to repair the skin barrier overnight.</li>
+                    `,
+                dry: `
+                    <h3>🌞 Morning Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use a hydrating cream-based cleanser with ceramides and glycerin to retain moisture.</li>
+                        <li> <strong>Toner:</strong> Apply a hydrating toner with rose water or aloe vera to soothe the skin.</li>
+                        <li> <strong>Serum:</strong> Use a hyaluronic acid serum followed by a vitamin C serum to lock in hydration and brighten skin.</li>
+                        <li> <strong>Moisturizer:</strong> Choose a rich, nourishing moisturizer with shea butter or squalane.</li>
+                        <li> <strong>Sunscreen:</strong> Always apply SPF 30+ sunscreen with added hydration to prevent dryness.</li>
+                    </ul>
+                    <h3>🌙 Night Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use a gentle sulfate-free cleanser to avoid stripping natural oils.</li>
+                        <li> <strong>Serum:</strong> Apply a vitamin E or ceramide serum for deep hydration and barrier repair.</li>
+                        <li> <strong>Moisturizer:</strong> Use a thick night cream or overnight mask with peptides to promote skin regeneration.</li>
+                    `,
+                sensitive: `
+                    <h3>🌞 Morning Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use a fragrance-free, hypoallergenic cleanser with oat extract.</li>
+                        <li> <strong>Toner:</strong> Skip toner or use a mild chamomile-infused toner to reduce irritation.</li>
+                        <li> <strong>Serum:</strong> Apply a soothing serum with centella asiatica or chamomile to calm inflammation.</li>
+                        <li> <strong>Moisturizer:</strong> Opt for a barrier-repair moisturizer with ceramides and allantoin.</li>
+                        <li> <strong>Sunscreen:</strong> Use a mineral sunscreen with zinc oxide and titanium dioxide.</li>
+                    </ul>
+                    <h3>🌙 Night Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use the same gentle cleanser as in the morning.</li>
+                        <li> <strong>Serum:</strong> Apply a hydrating serum with aloe vera or panthenol to reduce sensitivity.</li>
+                        <li> <strong>Moisturizer:</strong> Use a thick cream with colloidal oatmeal and shea butter for deep nourishment.</li>
+                        `,
+                combination: `
+                    <h3>🌞 Morning Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use a gentle foaming cleanser with a balanced pH to address both dry and oily areas.</li>
+                        <li> <strong>Toner:</strong> Apply a toner with green tea extract to balance sebum production and hydrate.</li>
+                        <li> <strong>Serum:</strong> Use a lightweight niacinamide serum to regulate oil and maintain hydration.</li>
+                        <li> <strong>Moisturizer:</strong> Apply a gel-based moisturizer to oily areas and a richer moisturizer to dry areas.</li>
+                        <li> <strong>Sunscreen:</strong> Choose a lightweight SPF 30+ sunscreen to avoid excess shine.</li>
+                    </ul>
+                    <h3>🌙 Night Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Double cleanse if wearing makeup, otherwise use a hydrating cleanser.</li>
+                        <li> <strong>Serum:</strong> Apply a hyaluronic acid serum to maintain moisture balance.</li>
+                        <li> <strong>Moisturizer:</strong> Use a night cream with ceramides and peptides.</li>
+                    `,
+                normal: `
+                    <h3>🌞 Morning Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use a gentle cleanser with antioxidants to maintain skin health.</li>
+                        <li> <strong>Toner:</strong> Apply a hydrating toner with rose water for a refreshing boost.</li>
+                        <li> <strong>Serum:</strong> Use a vitamin C serum for a radiant glow.</li>
+                        <li> <strong>Moisturizer:</strong> Apply a lightweight moisturizer with SPF.</li>
+                    </ul>
+                    <h3>🌙 Night Routine</h3>
+                    <ul>
+                        <li> <strong>Cleanser:</strong> Use the same gentle cleanser as in the morning.</li>
+                        <li> <strong>Serum:</strong> Apply a hydrating serum with hyaluronic acid.</li>
+                        <li> <strong>Moisturizer:</strong> Use a nourishing night cream.</li>
+                    `
+            };
+            
+            routine.innerHTML = routines[skinType] || "Please select a skin type to generate a routine!";
+        }
+    </script>
+</body>
+</html>
+
